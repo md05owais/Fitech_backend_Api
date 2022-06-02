@@ -1,4 +1,5 @@
 const Brands = require("../model/brand");
+const brandValidate = require("../validation/brandValidation");
 
 exports.postAddBrands = (req, res, next) => {
   const brandId = req.body.brandId;
@@ -11,7 +12,12 @@ exports.postAddBrands = (req, res, next) => {
   const businessPAN = req.body.businessPAN;
   const dateOfIncorporation = req.body.dateOfIncorporation;
   const cin_LLPIN = req.body.cin_LLPIN;
+  let { error } = brandValidate.validate(req.body);
 
+  if (error) {
+    res.send(error.details[0].message);
+    return;
+  }
   Brands.create({
     brandId: brandId,
     BrandCode: BrandCode,
@@ -43,6 +49,9 @@ exports.getBrandById = (req, res, next) => {
     where: { brandId: id },
   })
     .then((brand) => {
+      if (brand.length === 0) {
+        throw new Error("Record not found");
+      }
       res.send(brand);
     })
     .catch((err) => res.status(404).send(err.message));
@@ -58,10 +67,18 @@ exports.postEditBrand = (req, res, next) => {
   const updatedBusinessPAN = req.body.businessPAN;
   const updatedDateOfIncorporation = req.body.dateOfIncorporation;
   const updatedCin_LLPIN = req.body.cin_LLPIN;
+
+  let { error } = brandValidate.validate(req.body);
+
+  if (error) {
+    res.send(error.details[0].message);
+    return;
+  }
   Brands.findAll({
     where: { brandId: id },
   })
     .then(([brand]) => {
+      if (!brand) res.status(400).send("irrelevent request ");
       brand.BrandCode = updatedBrandCode;
       brand.brandName = updatedBrandName;
       brand.email = updatedEmail;

@@ -18,22 +18,35 @@ sequelize
     app.listen(3000);
   })
   .catch((err) => console.log(err));
-app.post("/https://coedify/api/v1/brands/", (req, res) => {
-  brandController.postAddBrands(req, res);
-});
 
-app.put("/https://coedify/api/v1/brands/:id", (req, res) => {
-  brandController.postEditBrand(req, res);
-});
+app.use("/https://coedify/api/v1/brands", brandsRouts);
 
-app.get("/https://coedify/api/v1/brands/:id", (req, res) => {
-  brandController.getBrandById(req, res);
-});
 
-app.get("/https://coedify/api/v1/brands", (req, res) => {
-  brandController.getBrands(req, res);
-});
 
-app.delete("/https://coedify/api/v1/brands/:id", (req, res) => {
-  brandController.deleteBrand(req, res);
-});
+
+
+
+
+
+
+
+
+// app.post("/https://coedify/api/v1/brands/", (req, res) => {
+//   brandController.postAddBrands(req, res);
+// });
+
+// app.put("/https://coedify/api/v1/brands/:id", (req, res) => {
+//   brandController.postEditBrand(req, res);
+// });
+
+// app.get("/https://coedify/api/v1/brands/:id", (req, res) => {
+//   brandController.getBrandById(req, res);
+// });
+
+// app.get("/https://coedify/api/v1/brands", (req, res) => {
+//   brandController.getBrands(req, res);
+// });
+
+// app.delete("/https://coedify/api/v1/brands/:id", (req, res) => {
+//   brandController.deleteBrand(req, res);
+// });
